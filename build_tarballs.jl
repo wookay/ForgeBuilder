@@ -13,7 +13,7 @@ script = """
 cd \$WORKSPACE/srcdir/forge-$version/
 mkdir build
 cd build
-cmake ..
+cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DBUILD_EXAMPLES_CUDA=OFF -DBUILD_EXAMPLES_OPENCL=OFF ..
 make
 make install
 rm -rf \$WORKSPACE/destdir/bin/{g,h,k}* \$WORKSPACE/destdir/lib/cmake \$WORKSPACE/destdir/logs
@@ -23,7 +23,7 @@ ls \$WORKSPACE/destdir/lib
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
 platforms = [
-    "x86_64-apple-darwin14"
+    MacOS(:x86_64)
 ]
 #platforms = supported_platforms()
 
