@@ -22,10 +22,10 @@ cat <<EOF > CMakeLists.txt.patch
 +EXTERNALPROJECT_ADD(
 +  freetype
 +  # URL http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.gz
-+  URL ${CMAKE_SOURCE_DIR}/vendor/freetype-2.7.1.tar.gz
-+  PATCH_COMMAND ${CMAKE_SOURCE_DIR}/patches/patch-manager.sh freetype
-+  CONFIGURE_COMMAND ./configure --prefix=${CMAKE_BINARY_DIR} --disable-shared --enable-static --without-png
-+  INSTALL_COMMAND make install && ln -s ${CMAKE_BINARY_DIR}/include/freetype2 ${CMAKE_BINARY_DIR}/include/freetype2/freetype
++  URL \\\${CMAKE_SOURCE_DIR}/vendor/freetype-2.7.1.tar.gz
++  PATCH_COMMAND \\\${CMAKE_SOURCE_DIR}/patches/patch-manager.sh freetype
++  CONFIGURE_COMMAND ./configure --prefix=\\\${CMAKE_BINARY_DIR} --disable-shared --enable-static --without-png
++  INSTALL_COMMAND make install && ln -s \\\${CMAKE_BINARY_DIR}/include/freetype2 \\\${CMAKE_BINARY_DIR}/include/freetype2/freetype
 +  BUILD_IN_SOURCE 1
 +)
 EOF
