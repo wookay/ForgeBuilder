@@ -11,6 +11,25 @@ sources = [
 
 script = """
 cd \$WORKSPACE/srcdir/forge-$version/
+cat <<EOF > CMakeLists.txt.patch
+--- forge-1.0.4-original/CMakeLists.txt	2019-10-16 17:52:20.000000000 +0900
++++ forge-1.0.4/CMakeLists.txt	2019-10-16 17:49:43.000000000 +0900
+@@ -179,3 +179,13 @@
+     pkgcfg_lib_FontConfigPkg_freetype
+     pkgcfg_lib_FontConfigPkg_fontconfig
+ )
++
++EXTERNALPROJECT_ADD(
++  freetype
++  # URL http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.gz
++  URL ${CMAKE_SOURCE_DIR}/vendor/freetype-2.7.1.tar.gz
++  PATCH_COMMAND ${CMAKE_SOURCE_DIR}/patches/patch-manager.sh freetype
++  CONFIGURE_COMMAND ./configure --prefix=${CMAKE_BINARY_DIR} --disable-shared --enable-static --without-png
++  INSTALL_COMMAND make install && ln -s ${CMAKE_BINARY_DIR}/include/freetype2 ${CMAKE_BINARY_DIR}/include/freetype2/freetype
++  BUILD_IN_SOURCE 1
++)
+EOF
+patch -p1 -i CMakeLists.txt.patch
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DBUILD_EXAMPLES_CUDA=OFF -DBUILD_EXAMPLES_OPENCL=OFF ..
